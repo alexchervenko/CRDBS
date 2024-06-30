@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 
 @RestController()
@@ -35,7 +34,7 @@ public class TableController {
     }
 
     @GetMapping("/get/{tableName}/list")
-    public ResponseEntity<List<Map>> getListFromTable(@PathVariable String tableName) {
+    public ResponseEntity<List<TableObject>> getListFromTable(@PathVariable String tableName) {
         Table table = storageService.getDataFromFile(tableName);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -43,8 +42,8 @@ public class TableController {
     }
 
     @GetMapping("/get/{tableName}/{id}")
-    public ResponseEntity<Map> getObjectFromTable(@PathVariable String tableName,
-                                                  @PathVariable String id) {
+    public ResponseEntity<TableObject> getObjectFromTable(@PathVariable String tableName,
+                                                          @PathVariable String id) {
         Table table = storageService.getDataFromFile(tableName);
         return ResponseEntity.status(HttpStatus.OK).body(table.getContent().get(id));
     }
@@ -62,7 +61,7 @@ public class TableController {
     public ResponseEntity<TableObject> createTableObject(@PathVariable String tableName,
                                                          @RequestBody TableObject tableObject) {
         Table table = storageService.getDataFromFile(tableName);
-        table.putDataInTable(tableObject.getId(), tableObject.getObjectData());
+        table.putDataInTable(tableObject.getId(), tableObject);
         storageService.saveDataToFile(table.getName(), table.getContent());
         return ResponseEntity
                 .status(HttpStatus.OK)

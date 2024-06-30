@@ -16,14 +16,14 @@ public class Table {
 
     @Getter
     @Setter
-    private Map<String, Map> content = new HashMap<>();
+    private Map<String, TableObject> content = new HashMap<>();
 
-    public void putDataInTable(String id, Map data){
+    public void putDataInTable(String id, TableObject data){
         content.putIfAbsent(id, data);
     }
 
     @JsonIgnore
-    public List<Map> getListOfTableObjects() {
+    public List<TableObject> getListOfTableObjects() {
         return content.values().stream().toList();
     }
 }

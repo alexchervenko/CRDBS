@@ -9,14 +9,14 @@ import java.util.Map;
 
 @Service
 public class StorageService {
-    public void saveDataToFile(String tableName, Map<String, Map> content) {
+    public void saveDataToFile(String tableName, Map<String, TableObject> content) {
         serializeToFile(tableName, content);
     }
 
     public Table getDataFromFile(String tableName) {
         Table table = new Table(tableName);
         Object tableData = deserializeFromFile(tableName);
-        table.setContent((Map<String, Map>) tableData);
+        table.setContent((Map<String, TableObject>) tableData);
         return table;
     }
 
