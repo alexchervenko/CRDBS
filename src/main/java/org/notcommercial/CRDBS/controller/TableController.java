@@ -43,7 +43,7 @@ public class TableController {
 
     @GetMapping("/get/{tableName}/{id}")
     public ResponseEntity<TableObject> getObjectFromTable(@PathVariable String tableName,
-                                                          @PathVariable String id) {
+                                                          @PathVariable Integer id) {
         Table table = storageService.getDataFromFile(tableName);
         return ResponseEntity.status(HttpStatus.OK).body(table.getContent().get(id));
     }

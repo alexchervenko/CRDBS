@@ -5,23 +5,24 @@ import org.notcommercial.CRDBS.entity.TableObject;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class StorageService {
-    public void saveDataToFile(String tableName, Map<String, TableObject> content) {
+    public synchronized void saveDataToFile(String tableName, Map<Integer, TableObject> content) {
         serializeToFile(tableName, content);
     }
 
-    public Table getDataFromFile(String tableName) {
+    public synchronized Table getDataFromFile(String tableName) {
         Table table = new Table(tableName);
         Object tableData = deserializeFromFile(tableName);
-        table.setContent((Map<String, TableObject>) tableData);
+        table.setContent((HashMap<Integer, TableObject>) tableData);
         return table;
     }
 
     public static void serializeToFile(String fileName, Object data) {
-        try (FileOutputStream fileOut = new FileOutputStream("src/main/resources/data/" + fileName);
+        try (FileOutputStream fileOut = new FileOutputStream(System.getProperty("user.dir") + "\\" + fileName);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(data);
         } catch (IOException e) {
@@ -30,7 +31,7 @@ public class StorageService {
     }
 
     public static Object deserializeFromFile(String fileName) {
-        try (FileInputStream fileIn = new FileInputStream("src/main/resources/data/" + fileName);
+        try (FileInputStream fileIn = new FileInputStream(System.getProperty("user.dir") + "\\" + fileName);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             return in.readObject();
         } catch (IOException | ClassNotFoundException e) {

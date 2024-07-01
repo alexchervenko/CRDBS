@@ -6,23 +6,22 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 
 public class TableObject implements Serializable {
     @Getter
-    private final String id;
+    private final int id;
+
+    private static int instanceCounter = 1;
 
     @Getter
     @Setter
     @JsonProperty("object_data")
-    private Map<String, String> objectData = new HashMap<>();
-
-    private final UUID uuid = UUID.randomUUID();
+    private HashMap<Object, Object> objectData = new HashMap<>();
 
     public TableObject() {
-        this.id = uuid.toString();
+        this.id = instanceCounter;
         objectData.put("id", id);
+        instanceCounter++;
     }
 }

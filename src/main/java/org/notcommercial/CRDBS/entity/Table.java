@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class Table {
@@ -16,9 +15,9 @@ public class Table {
 
     @Getter
     @Setter
-    private Map<String, TableObject> content = new HashMap<>();
+    private HashMap<Integer, TableObject> content = new HashMap<>();
 
-    public void putDataInTable(String id, TableObject data){
+    public void putDataInTable(Integer id, TableObject data) {
         content.putIfAbsent(id, data);
     }
 
